@@ -1,0 +1,9 @@
+Building S.C.A.M
+
+See doc/readme-qt.rst for instructions on building S.C.A.M QT,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of S.C.A.M.
+
+See doc/build-*.txt for instructions on building S.C.A.Md,
+the intended-for-services, no-graphical-interface, reference
+implementation of S.C.A.M.
