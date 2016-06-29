@@ -37,6 +37,7 @@ static const int64_t MIN_TX_FEE = 10000;
 static const int64_t MIN_RELAY_TX_FEE = MIN_TX_FEE;
 static const int64_t MAX_MONEY = 30000000 * COIN;
 static const int64_t COIN_YEAR_REWARD = 10 * CENT; // 1% per year
+static const unsigned int FORK_TIME = 1467330036; //  1.7 2016
 
 inline bool MoneyRange(int64_t nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 // Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp.
@@ -51,8 +52,21 @@ static const int fHaveUPnP = false;
 static const uint256 hashGenesisBlock("0x000001917fed8f62f338ad0cedbf14d3dc2c7a295c9c483c1b90043080f08780");
 static const uint256 hashGenesisBlockTestNet("0x000001917fed8f62f338ad0cedbf14d3dc2c7a295c9c483c1b90043080f08780");
 
-inline int64_t PastDrift(int64_t nTime)   { return nTime - 10 * 60; } // up to 10 minutes from the past
-inline int64_t FutureDrift(int64_t nTime) { return nTime + 10 * 60; } // up to 10 minutes from the future
+inline int64_t PastDrift(int64_t nTime)       
+{     
+	if(nTime < FORK_TIME)    
+		return nTime - 10 * 60;     
+	else    
+		return nTime - 90;    
+}    
+inline int64_t FutureDrift(int64_t nTime)     
+{     
+	if(nTime < FORK_TIME)    
+		return nTime + 10 * 60;    
+	else    
+		return nTime + 90;    
+}    
+
 
 extern libzerocoin::Params* ZCParams;
 extern CScript COINBASE_FLAGS;
@@ -114,7 +128,9 @@ bool LoadExternalBlockFile(FILE* fileIn);
 bool CheckProofOfWork(uint256 hash, unsigned int nBits);
 unsigned int GetNextTargetRequired(const CBlockIndex* pindexLast, bool fProofOfStake);
 int64_t GetProofOfWorkReward(int64_t nFees);
-int64_t GetProofOfStakeReward(int64_t nCoinAge, int64_t nFees);
+int64_t GetProofOfStakeReward(int64_t nCoinAge, int64_t nFees, unsigned int nTime);    
+int64_t GetProofOfStakeRewardV1(int64_t nCoinAge, int64_t nFees);    
+int64_t GetProofOfStakeRewardV2(int64_t nCoinAge, int64_t nFees);    
 unsigned int ComputeMinWork(unsigned int nBase, int64_t nTime);
 unsigned int ComputeMinStake(unsigned int nBase, int64_t nTime, unsigned int nBlockTime);
 int GetNumBlocksOfPeers();
