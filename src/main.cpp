@@ -1037,7 +1037,7 @@ int64_t GetProofOfStakeRewardV2(int64_t nCoinAge, int64_t nFees)
 
 	else if(pindexBest->nHeight > 12000)
 	{
-	    nSubsidy = nCoinAge * COIN_YEAR_REWARD * 33 / (365 * 33 + 8);
+	    nSubsidy = nCoinAge * COIN_YEAR_REWARD * 33 / (365 * 33 + 8) * 36;
 		return nSubsidy + nFees; 
 	}	
 	
